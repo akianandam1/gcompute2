@@ -129,7 +129,7 @@ def case1road(data, start, end):
         v_2 = float(data[i][5])
         T = float(data[i][6])
         vec = torch.tensor([x_1,0,0,1,0,0,0,0,0, 0, v_1, 0, 0, v_2, 0, 0, -(m_1*v_1 + m_2*v_2)/m_3, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, m_1, m_2, m_3, .0001, .001, 1000, int(T+2), torch.optim.NAdam, "case1road.txt")
         i += 1
 
@@ -146,7 +146,7 @@ def case2road(data, start, end):
         v_2 = float(data[i][5])
         T = float(data[i][6])
         vec = torch.tensor([x_1,0,0,1,0,0,0,0,0, 0, v_1, 0, 0, v_2, 0, 0, -(m_1*v_1 + m_2*v_2)/m_3, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, m_1, m_2, m_3, .0001, .001, 1000, int(T+2), torch.optim.NAdam, "case2road.txt")
         i += 1
 
@@ -159,7 +159,7 @@ def unequalcollisionsless(data, start, end):
         v_2 = data[i][2]
         T = data[i][3]
         vec = torch.tensor([-1, 0, 0, 1, 0, 0, 0, 0, 0, v_1, v_2, 0, v_1, v_2, 0, -2*v_1/m_3, -2*v_2/m_3, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, 1, 1, m_3, .0001, .001, 1000, int(T+2), torch.optim.NAdam, "unequalcollisionless.txt")
         i += 1
 
@@ -175,7 +175,7 @@ def equalfreefall(data, start, end):
         y = data[i][4]
         T = data[i][5]
         vec = torch.tensor([-.5, 0, 0, .5, 0, 0, x, y, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, m_1, m_2, m_3, .0001, .001, 1000, int(T+2), torch.optim.NAdam, "equalfreefall.txt")
         i += 1
 
@@ -188,7 +188,7 @@ def equalmass(data, start, end):
         v_2 = data[i][1]
         T = data[i][2]
         vec = torch.tensor([-1, 0, 0, 1, 0, 0, 0, 0, 0, v_1, v_2, 0, v_1, v_2, 0, -2*v_1, -2*v_2, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, 1, 1, 1, .0001, .001, 1000, int(T+2), torch.optim.NAdam, "equalmass.txt")
         i += 1
 
@@ -205,7 +205,7 @@ def nhd(data, start, end):
         v_2 = float(data[i][5])
         T = float(data[i][6])
         vec = torch.tensor([x_1, 0, 0, 1, 0, 0, 0, 0, 0, 0, v_1, 0, 0, v_2, 0, 0, -(m_1*v_1+m_2*v_2)/m_3, 0], requires_grad = True)
-        vec = perturb(vec, .1)
+        vec = perturb(vec, .01)
         loss_values(i, vec, m_1, m_2, m_3, .0001, .0001, 1000, int(T+2), torch.optim.NAdam, "nhd.txt")
         i += 1
 
