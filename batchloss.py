@@ -102,7 +102,7 @@ def loss_values(identity, vec, m_1, m_2, m_3, lr, time_step, num_epochs, max_per
         losses.append(loss.item())
 
         with open(file_name, "a") as file:
-            file.write(f"{identity},{i},{loss.item()}\n")
+            file.write(f"{identity},{i},{loss.item()},{vec}\n")
 
         # print(loss)
 
