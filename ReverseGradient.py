@@ -35,7 +35,7 @@ while True:
             torch.tensor([1]),
 
         )).flatten()
-    data_set = torchstate(input_vec, time_step, max_period, "rk4")
+    data_set = torchstate(input_vec, .001, 10, "rk4")
     first_index = nearest_position_state(1, data_set[0], data_set, 300, len(data_set), time_step)
     first_particle_state = data_set[first_index]
     second_index = nearest_position_state(2, data_set[0], data_set, 300, len(data_set), time_step)
@@ -47,8 +47,8 @@ while True:
     print(v_1.grad, v_2.grad)
     with torch.no_grad():
 
-        v_1 += v_1.grad * .01
-        v_2 += v_2.grad * .01
+        v_1 += v_1.grad * .001
+        v_2 += v_2.grad * .001
 
     v_1.grad.zero_()
     v_2.grad.zero_()
