@@ -7,7 +7,8 @@ i = 0
 while True:
     with open("ReverseGradientPoints.txt") as file:
         lines = file.readlines()
-    
+    time_step = .001
+    max_period = 10
     random.shuffle(lines)
     v_1 = torch.tensor([float(lines[0].split(",")[0])], requires_grad = True)
     v_2 = torch.tensor([float(lines[0].split(",")[1])], requires_grad = True)
@@ -35,7 +36,7 @@ while True:
             torch.tensor([1]),
 
         )).flatten()
-    data_set = torchstate(input_vec, .001, 10, "rk4")
+    data_set = torchstate(input_vec, time_step, max_period, "rk4")
     first_index = nearest_position_state(1, data_set[0], data_set, 300, len(data_set), time_step)
     first_particle_state = data_set[first_index]
     second_index = nearest_position_state(2, data_set[0], data_set, 300, len(data_set), time_step)
