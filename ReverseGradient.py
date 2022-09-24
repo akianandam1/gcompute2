@@ -49,8 +49,8 @@ while True:
     print(v_1.grad, v_2.grad)
     with torch.no_grad():
 
-        v_1 += v_1.grad * .05
-        v_2 += v_2.grad * .05
+        v_1 += v_1.grad * .01
+        v_2 += v_2.grad * .01
 
     v_1.grad.zero_()
     v_2.grad.zero_()
