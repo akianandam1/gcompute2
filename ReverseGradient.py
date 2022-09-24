@@ -2,7 +2,7 @@ import random
 from batchloss import nearest_position, nearest_position_state
 import torch
 from RevisedNumericalSolver import torchstate
-
+print("begun")
 i = 0
 while True:
     with open("ReverseGradientPoints.txt") as file:
