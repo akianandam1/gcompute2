@@ -1,6 +1,7 @@
 import random
 from batchloss import nearest_position, nearest_position_state
 import torch
+from RevsiedNumericalSolver import torchstate
 
 i = 0
 while True:
