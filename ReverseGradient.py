@@ -55,11 +55,13 @@ while True:
     v_1.grad.zero_()
     v_2.grad.zero_()
     print(f"{v_1.item()},{v_2.item()}")
-    if str(v_1) or str(v_2) == "nan":
+    if "nan" in f"{v_1.item()},{v_2.item()}\n":
+        print("passed")
         pass
     else:
-        with open("ReverseGradientPoints.txt", "a") as file:
+        with open("ReverseGradientPoints2.txt", "a") as file:
             file.write(f"{v_1.item()},{v_2.item()}\n")
+            print("written")
     
     print(f"Epoch: {i}")
     i += 1
