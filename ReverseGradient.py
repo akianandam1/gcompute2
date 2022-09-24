@@ -46,13 +46,15 @@ while True:
     loss = nearest_position(1, data_set[0], first_particle_state) + nearest_position(2, data_set[0], second_particle_state) + nearest_position(3, data_set[0], third_particle_state)
     loss.backward()
     print(v_1, v_2)
+    print(v_1.grad, v_2.grad)
     with torch.no_grad():
 
-        v_1 += v_1.grad * .01
-        v_2 += v_2.grad * .01
+        v_1 += v_1.grad * .05
+        v_2 += v_2.grad * .05
 
     v_1.grad.zero_()
     v_2.grad.zero_()
+    print(f"{v_1.item()},{v_2.item()}")
     if str(v_1) or str(v_2) == "nan":
         pass
     else:
