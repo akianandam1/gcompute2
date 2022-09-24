@@ -45,11 +45,11 @@ while True:
     third_particle_state = data_set[third_index]
     loss = nearest_position(1, data_set[0], first_particle_state) + nearest_position(2, data_set[0], second_particle_state) + nearest_position(3, data_set[0], third_particle_state)
     loss.backward()
-    print(v_1.grad, v_2.grad)
+    print(v_1, v_2)
     with torch.no_grad():
 
-        v_1 += v_1.grad * .001
-        v_2 += v_2.grad * .001
+        v_1 += v_1.grad * .01
+        v_2 += v_2.grad * .01
 
     v_1.grad.zero_()
     v_2.grad.zero_()
