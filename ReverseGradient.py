@@ -61,6 +61,8 @@ while True:
     else:
         with open("ReverseGradientPoints2.txt", "a") as file:
             file.write(f"{v_1.item()},{v_2.item()}\n")
+        with open("uniquepoints.txt", "a") as file:
+            file.write(f"{v_1.item()},{v_2.item()}\n")
             print("written")
     
     print(f"Epoch: {i}")
