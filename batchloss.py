@@ -64,57 +64,90 @@ def loss_values(identity, vec, m_1, m_2, m_3, lr, time_step, num_epochs, max_per
     i = 0
     print("start")
     while i < num_epochs:
-        print(i)
-        input_vec = torch.cat((vec, torch.tensor([m_1, m_2, m_3])))
-        if len(losses) > 10:
-            if losses[-1] == losses[-3]:
-                # print("Repeated")
-                optimizer = torch.optim.SGD([vec], lr = .00001)
+        if i == 0:
+            time_step = .0001
+            data_set = torchstate(input_vec, time_step, max_period, "rk4")
 
-        if i > 10:
-            if losses[-1] < .1:
-                time_step = time_step/2
-            if losses[-1] <.5:
-                time_step = time_step/2
-            if losses[-1] < .01:
-                time_step = time_step / 2
-        print(time_step)
-        data_set = torchstate(input_vec, time_step, max_period, "rk4")
+            optimizer.zero_grad()
+
+            first_index = nearest_position_state(1, data_set[0], data_set, 300, len(data_set), time_step)
+            first_particle_state = data_set[first_index]
+            second_index = nearest_position_state(2, data_set[0], data_set, 300, len(data_set), time_step)
+            second_particle_state = data_set[second_index]
+            third_index = nearest_position_state(3, data_set[0], data_set, 300, len(data_set), time_step)
+            third_particle_state = data_set[third_index]
+            loss = nearest_position(1, data_set[0], first_particle_state) + nearest_position(2, data_set[0],
+                                                                                             second_particle_state) + nearest_position(
+                3, data_set[0], third_particle_state)
+
+            print(input_vec)
+            print(vec.grad)
+            print(f"{identity},{i},{loss.item()}\n")
+            losses.append(loss.item())
+
+            with open(file_name, "a") as file:
+                file.write(f"{identity},{i},{loss.item()},{vec}\n")
+
+            loss.backward()
+
+            optimizer.step()
+            i += 1
+        else:
+
+            print(i)
+            input_vec = torch.cat((vec, torch.tensor([m_1, m_2, m_3])))
+            if len(losses) > 10:
+                if losses[-1] == losses[-3]:
+                    # print("Repeated")
+                    optimizer = torch.optim.SGD([vec], lr = .00001)
+
+            if i > 10:
+                if losses[-1] > .1:
+                    time_step = .001
+                elif losses[-1] > .025:
+                    time_step = .0006
+                elif losses[-1] > .01:
+                    time_step = .0003
+                else:
+                    time_step = .0001
+            print(time_step)
+            data_set = torchstate(input_vec, time_step, max_period, "rk4")
 
 
-        optimizer.zero_grad()
+            optimizer.zero_grad()
 
 
-        first_index = nearest_position_state(1, data_set[0], data_set, 300, len(data_set), time_step)
-        first_particle_state = data_set[first_index]
-        second_index = nearest_position_state(2, data_set[0], data_set, 300, len(data_set), time_step)
-        second_particle_state = data_set[second_index]
-        third_index = nearest_position_state(3, data_set[0], data_set, 300, len(data_set), time_step)
-        third_particle_state = data_set[third_index]
-        loss = nearest_position(1, data_set[0], first_particle_state) + nearest_position(2, data_set[0],
-                                                                                         second_particle_state) + nearest_position(
-            3, data_set[0], third_particle_state)
+            first_index = nearest_position_state(1, data_set[0], data_set, 300, len(data_set), time_step)
+            first_particle_state = data_set[first_index]
+            second_index = nearest_position_state(2, data_set[0], data_set, 300, len(data_set), time_step)
+            second_particle_state = data_set[second_index]
+            third_index = nearest_position_state(3, data_set[0], data_set, 300, len(data_set), time_step)
+            third_particle_state = data_set[third_index]
+            loss = nearest_position(1, data_set[0], first_particle_state) + nearest_position(2, data_set[0],
+                                                                                             second_particle_state) + nearest_position(
+                3, data_set[0], third_particle_state)
 
-        # print(" ")
-        print(input_vec)
-        print(vec.grad)
-        print(f"{identity},{i},{loss.item()}\n")
-        losses.append(loss.item())
+            # print(" ")
+            print(input_vec)
+            print(vec.grad)
+            print(f"{identity},{i},{loss.item()}\n")
+            losses.append(loss.item())
 
-        with open(file_name, "a") as file:
-            file.write(f"{identity},{i},{loss.item()},{vec}\n")
+            with open(file_name, "a") as file:
+                file.write(f"{identity},{i},{loss.item()},{vec}\n")
 
-        # print(loss)
+            print(loss)
 
-        loss.backward()
+            loss.backward()
 
-        # Updates input vector
-        optimizer.step()
+      #      Updates input vector
+            optimizer.step()
 
-        # print(f"Epoch:{i}")
-        # print(" ")
+            print(f"Epoch:{i}")
+            print(" ")
 
-        i += 1
+            i += 1
+
 
 
 def case1road(data, start, end):
